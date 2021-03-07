@@ -1,7 +1,11 @@
 import React from 'react'
 import axios from 'axios'
 
-export default class ProductPage extends React.Component{
+// REDUX
+import { connect } from 'react-redux'
+import { updateDataCarts } from './Redux/Actions/CartsAction'
+
+class ProductPage extends React.Component{
 
     addToCart = () => {
         let dataToSend = {
@@ -11,10 +15,10 @@ export default class ProductPage extends React.Component{
         }
         axios.post('http://localhost:2000/carts', dataToSend)
         .then((res) => {
-            {/* pakai transfer lewat props makanya dia abis ngepost langsung di get buat ditrf ke navbar lewat app*/}
+            /* abis ngepost langsung di get buat ditrf */
             axios.get('http://localhost:2000/carts?UserId=3')
             .then((res) => {
-                this.props.jumlahCart(res.data.length)
+                this.props.updateDataCarts(res.data.length) /*nama updateDataCarts disesuain sama yang di cartsAction */
             })
             .catch((err) => {
                 console.log(err)
@@ -86,3 +90,7 @@ export default class ProductPage extends React.Component{
         )
     }
 }
+
+const mapDispatchToProps = {updateDataCarts}
+
+export default connect('', mapDispatchToProps)(ProductPage)

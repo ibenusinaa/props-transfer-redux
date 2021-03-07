@@ -1,7 +1,8 @@
 import axios from 'axios'
 import React from 'react'
+import { connect } from 'react-redux'
 
-export default class Navbar extends React.Component{
+class Navbar extends React.Component{
 
     state = {
         totalCarts: 0
@@ -24,12 +25,9 @@ export default class Navbar extends React.Component{
                 <div className="container">
                     <div className="row align-items-center" style={{height: '75px'}}>
                         <div className="col-12">
-                            Keranjang Belanja Anda : {
-                                this.props.dataCart?
-                                    this.props.dataCart
-                                :
-                                    this.state.totalCarts
-                            } {/* pakai transfer lewat props, disini dipanggil dataCartnya*/}
+                        Keranjang Belanja Anda :  {
+                                this.props.totalCarts.totalKeranjang
+                            }
                         </div>
                     </div>
                 </div>
@@ -37,3 +35,10 @@ export default class Navbar extends React.Component{
         )
     }
 }
+const mapStateToProps = (state) =>{
+    return{
+        totalCarts: state.totalCarts
+    }
+}
+
+export default connect(mapStateToProps, '')(Navbar)
